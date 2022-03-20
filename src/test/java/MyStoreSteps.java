@@ -8,7 +8,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 
 import java.util.concurrent.TimeUnit;
 
-public class MyStoreSteps1 {
+public class MyStoreSteps {
 
     WebDriver driver;
 
@@ -66,5 +66,63 @@ public class MyStoreSteps1 {
         YourAddresses yourAddresses = new YourAddresses(driver);
         Boolean addressRemoval = yourAddresses.checkingForSecondAddressRemoval();
         Assert.isTrue(addressRemoval, "Address deletion failed. The second address is still visible.");
+
+        driver.quit();
+    }
+
+    @And("The user goes to the home page and selects a Hummingbird Printed Sweater")
+    public void theUserGoesToTheHomePageAndSelectsAHummingbirdPrintedSweater() {
+        YourAccount yourAccount = new YourAccount(driver);
+        HomePage homePage = new HomePage(driver);
+        yourAccount.clickOnLogo();
+
+        homePage.clickOnSweater();
+    }
+
+    @And("The user checks the discount, enters the size {string} and quantity {string}")
+    public void theUserChecksTheDiscountEntersTheSizeAndQuantity(String size, String quantity) throws InterruptedException{
+        ProductPage productPage = new ProductPage(driver);
+        productPage.checkDiscount();
+        productPage.sizeSelection(size);
+        productPage.quantityChoice(quantity);
+    }
+
+    @And("The user adds products to the cart and proceeds to checkout")
+    public void theUserAddsProductsToTheCartAndProceedsToCheckout() throws InterruptedException{
+        ProductPage productPage = new ProductPage(driver);
+        Thread.sleep(1000);
+        productPage.addToCart();
+
+        Thread.sleep(1000);
+        productPage.proceedToCheckout();
+        productPage.proceedToCheckout();
+    }
+
+    @And("The user fills in the order data and confirms the order \\(screenshot)")
+    public void theUserFillsInTheOrderDataAndConfirmsTheOrderScreenshot() {
+        OrderPage orderPage = new OrderPage(driver);
+        orderPage.confirmAddress();
+        orderPage.confirmDeliveryOption();
+        orderPage.confirmPaymentMethod();
+        orderPage.takeScreenShot();
+    }
+
+    @Then("The data in the Order History is consistent with the created order")
+    public void theDataInTheOrderHistoryIsConsistentWithTheCreatedOrder() {
+        OrderPage orderPage = new OrderPage(driver);
+        HomePage homePage = new HomePage(driver);
+        YourAccount yourAccount = new YourAccount(driver);
+
+        String orderID = orderPage.saveOrderID();
+        String orderPrice = orderPage.saveTotalPrice();
+        homePage.clickOnName();
+        yourAccount.clickOnOrderHistory();
+
+        OrderHistoryPage orderHistoryPage = new OrderHistoryPage(driver);
+        orderHistoryPage.checkOrderReference(orderID);
+        orderHistoryPage.checkOrderPrice(orderPrice);
+        orderHistoryPage.checkOrderStatus();
+
+        driver.quit();
     }
 }

@@ -14,4 +14,15 @@ public class HomePage {
         WebElement signInLink = driver.findElement(By.xpath("//*[@id='_desktop_user_info']/div/a"));
         signInLink.click();
     }
+
+    //[@id='content']/section/div/article[2]/div/div[1]/h3/a
+    public void clickOnSweater(){
+        WebElement hummingbirdSweater = driver.findElement(By.xpath("//*[@class='products']/article/div/div[1]/h3/a[text()='Hummingbird printed sweater']"));
+        hummingbirdSweater.click();
+    }
+
+    public void clickOnName(){
+        driver.findElement(By.xpath("//span[@class='hidden-sm-down']")).click();
+    }
+
 }

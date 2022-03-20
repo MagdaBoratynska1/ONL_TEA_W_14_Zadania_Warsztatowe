@@ -1,4 +1,5 @@
 import net.jodah.failsafe.internal.util.Assert;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
@@ -6,13 +7,10 @@ import org.openqa.selenium.chrome.ChromeDriver;
 
 import java.util.concurrent.TimeUnit;
 
-public class Main01 {
+public class Task1 {
 
     private static WebDriver driver;
-
-    //ljvfwmvimbbjdpikhc@nvhrw.com
-    //lorem.ipsum@mail.com
-    //lorem123
+    
 
     @Before
     public void setUp() {
@@ -46,6 +44,11 @@ public class Main01 {
 
         Assert.isTrue(addressRemoval, "Address deletion failed. The second address is still visible.");
 
+    }
+
+    @After
+    public void tearDown() {
+        driver.quit();
     }
 
 }
